@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    <title>Music</title>
+    <style>
+        body {
+            background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+            font-family: Roman, sans-serif;
+            color: #7a559b;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Background video */
+        video.background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #420516;
+            padding: 10px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo-img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .navbar .website-name {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin-right: 30px;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #d4bdac;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #664343;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger-menu div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #664343;
+                position: absolute;
+                top: 50px;
+                right: 20px;
+                padding: 10px;
+                border-radius: 5px;
+            }
+    
+            .nav-links.active {
+                display: flex;
+            }
+    
+            .hamburger-menu {
+                display: flex;
+            }
+        }
+
+        /* Music Collection */
+        h1 {
+            text-align: center;
+            font-family:Times New Roman;
+            color: #333;
+            font-size:50px;
+            padding-top: 80px; 
+        }
+
+        h3{
+            text-align: center;
+            font-family:Times New Roman;
+            color: #333; 
+        }
+        .audio-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap:70px;
+            justify-content: center;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .audio-item {
+            width: 20%;
+            margin-bottom: 20px;
+            border: 2px solid #664343;
+            padding: 10px;
+            border-radius: 8px;
+            background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+         
+        }
+
+        audio {
+            display: none; /* Hides the controls */
+        }
+
+        .img-container {
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .audio-item img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+        }
+
+        .scrollable-content {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .audio-item {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay loop muted>
+        <source src="{{ url_for('static', filename='background.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo" class="logo-img">
+            <span class="website-name">WeCare</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('AboutUs') }}">About Members</a></li>
+            <li class="dropdown">
+                <a href="#">Settings</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('Profile') }}">Profile</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle">More</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('journaling') }}">Journaling</a>
+                    <a href="{{ url_for('self_help_books') }}">Self Help Books</a>
+                    <a href="{{ url_for('mood_tracker') }}">Mood Tracker</a>
+                    <a href="{{ url_for('calming_audio') }}">Calming Audios</a>
+                    <a href="{{ url_for('meditation') }}">Meditation</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <div class="scrollable-content">
+        <h1>Music Library</h1>
+        <h3> Click to <b>Play or Pause</b></h3>
+
+        <div class="audio-container">
+            <!-- Track 1 -->
+            <div class="audio-item">
+                
+                <div class="img-container" onclick="playAudio('audio1')">
+                    <img src="{{ url_for('static', filename='css/track1.png') }}" alt="Track 1">
+                </div>
+                <audio id="audio1">
+                    <source src="{{ url_for('static', filename='Audio/01 Lhokanda - Mandala.mp3') }}" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <!-- Track 2 -->
+            <div class="audio-item">
+                
+                <div class="img-container" onclick="playAudio('audio2')">
+                    <img src="{{ url_for('static', filename='css/track2.png') }}" alt="Track 2">
+                </div>
+                <audio id="audio2">
+                    <source src="{{ url_for('static', filename='Audio/AtomFlow - Blooming.mp3') }}" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <!-- Track 3 -->
+            <div class="audio-item">
+            
+                <div class="img-container" onclick="playAudio('audio3')">
+                    <img src="{{ url_for('static', filename='css/track3.png') }}" alt="Track 3">
+                </div>
+                <audio id="audio3">
+                    <source src="{{ url_for('static', filename='Audio/breezy brooks - Windy Hill.mp3') }}" type="audio/mpeg">
+                </audio>
+            </div>
+             <!-- Track 4 -->
+             <div class="audio-item">
+                
+                <div class="img-container" onclick="playAudio('audio1')">
+                    <img src="{{ url_for('static', filename='css/track4.png') }}" alt="Track 4">
+                </div>
+                <audio id="audio4">
+                    <source src="{{ url_for('static', filename='Audio/Neon Eyes - Moonchild.mp3') }}" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <!-- Track 5 -->
+            <div class="audio-item">
+                
+                <div class="img-container" onclick="playAudio('audio2')">
+                    <img src="{{ url_for('static', filename='css/track7.png') }}" alt="Track 5">
+                </div>
+                <audio id="audio5">
+                    <source src="{{ url_for('static', filename='Audio/Nordic Winds - Let It Flow.mp3') }}" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <!-- Track 6 -->
+            <div class="audio-item">
+            
+                <div class="img-container" onclick="playAudio('audio3')">
+                    <img src="{{ url_for('static', filename='css/track6.png') }}" alt="Track 6">
+                </div>
+                <audio id="audio3">
+                    <source src="{{ url_for('static', filename='Audiostatic/Dusty Clav - Beneath Us.mp3') }}" type="audio/mpeg">
+                </audio>
+            </div>
+             
+        </div>
+    </div>
+
+    <script>
+        // Variable to store the currently playing audio element
+        let currentAudio = null;
+    
+        function playAudio(audioId) {
+            const audio = document.getElementById(audioId);
+    
+            // If the same audio is clicked, stop it
+            if (currentAudio === audio) {
+                if (!audio.paused) {
+                    audio.pause();  // Pause the audio
+                } else {
+                    audio.play();  // Play the audio if it was paused
+                }
+            } else {
+                // Stop the previous audio if it exists
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;  // Reset the previous audio to the beginning
+                }
+    
+                // Play the new audio
+                audio.play();
+            }
+    
+            // Update the currentAudio to the currently playing one
+            currentAudio = audio;
+        }
+    </script>
+    
+</body>
+</html>

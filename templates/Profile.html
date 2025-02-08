@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+    <script>
+        // Function to enable the input fields when the Edit button is clicked
+        function enableEdit(fieldId, buttonId) {
+            var field = document.getElementById(fieldId);
+            var button = document.getElementById(buttonId);
+            
+            field.disabled = false;  // Enable the input field
+            button.innerText = "Save";  // Change button text to 'Save'
+            button.setAttribute("onclick", "submitForm('" + fieldId + "', '" + buttonId + "')");  // Change button click function
+        }
+
+        // Function to submit the form when the Save button is clicked
+        function submitForm(fieldId, buttonId) {
+            var form = document.getElementById('profileForm');
+            form.submit();  
+            alert("data submitted");// Submit the form
+        }
+
+        // Toggle hamburger menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #664343;
+            padding: 10px 20px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo-img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .navbar .website-name {
+            font-size: 30px;
+            font-weight: bold;
+        }
+        
+        .navbar .nav-links {
+            list-style-type: none;
+            display: flex;
+            margin-left: auto;
+        }
+        
+        .navbar .nav-links li {
+            margin: 0 15px;
+        }
+        
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            margin-right: 50px;
+        }
+        
+        .navbar .nav-links a:hover {
+            color: #F0EBE3;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            left: 0;
+        }
+        
+        .dropdown-content a {
+            color: white;
+            background-color: #664343;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: grey;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        .hamburger-menu div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+        }
+        
+        /* Responsive navbar */
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #664343;
+                padding: 20px;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                z-index: 1000;
+            }
+        
+            .navbar .nav-links.active {
+                display: flex;
+            }
+        
+            .navbar .nav-links li {
+                margin: 10px 0;
+                text-align: center;
+            }
+        
+            .navbar .nav-links a {
+                font-size: 18px;
+            }
+        
+            /* Show the hamburger menu */
+            .hamburger-menu {
+                display: flex;
+            }
+        
+            .dropdown-content {
+                position: static;
+            }
+        }
+
+        /* Profile Container */
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .profile-info {
+            margin-bottom: 20px;
+        }
+
+        .quote {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .form-group button {
+            background-color: #C39898;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .form-group button:hover {
+            background-color: #A68484;
+        }
+
+        .flash-message {
+            color: red;
+            margin: 15px 0;
+        }
+
+        /* Button style for the logout */
+        .btn-danger {
+            background-color: #C39898;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .btn-danger:hover {
+            background-color: #A68484;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo" class="logo-img">
+            <span class="website-name">WeCare</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('AboutUs') }}">About Members</a></li>
+            <li class="dropdown">
+                <a href="#">Settings</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('Profile') }}">Profile</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropper">More</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('journaling') }}">Journaling</a>
+                    <a href="{{ url_for('self_help_books') }}">Self Help Books</a>
+                    <a href="{{ url_for('mood_tracker') }}">Mood Tracker</a>
+                    <a href="{{ url_for('calming_audio') }}">Calming Audios</a>
+                    <a href="{{ url_for('meditation') }}">Meditation</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <h1>Hello, {{ user['username'] }}</h1>
+
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-dismissible fade show" role="alert">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} mt-2">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Display User Info -->
+        <div class="profile-info">
+            <p><strong>Name:</strong> {{ user['username'] }}</p>
+            <p><strong>Email:</strong> {{ user['email'] }}</p>
+        </div>
+
+        <!-- Update Profile Form -->
+        <form method="POST" action="{{ url_for('Profile') }}" id="profileForm">
+            <h3>Change Username:</h3>
+            <div class="input-group mb-3">
+                <input type="text" id="new_username" name="new_username" class="form-control" value="{{ user['username'] }}" disabled required>
+
+                <button type="button" class="btn btn-warning" id="edit_username_button" onclick="enableEdit('new_username', 'edit_username_button')">Edit</button>
+            </div>
+            
+            <h3>Change Password:</h3>
+            <div class="input-group mb-3">
+                <input type="password" id="new_password" name="new_password" class="form-control" value="{{ user['password'] }}" disabled required>
+                <button type="button" class="btn btn-warning" id="edit_password_button" onclick="enableEdit('new_password', 'edit_password_button')">Edit</button>
+            </div>
+           
+        </form>
+    </div>
+</body>
+</html>

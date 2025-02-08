@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    <title>Calming Audios</title>
+    <style>
+        body {
+            background-color:#EFBC9B;
+            font-family: Roman, sans-serif;
+            color: #7a559b;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        video.background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover; /* Ensures the video covers the full screen */
+            z-index: -1; /* Places the video behind all other content */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #85586F;
+            padding: 10px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo-img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .navbar .website-name {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin-right: 30px;
+            align-items: space-between;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            margin-right: 40px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #d4bdac;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #85586F;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger-menu div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+              display: none;
+              flex-direction: column;
+              background-color: #664343;
+              position: absolute;
+              top: 50px;
+              right: 20px;
+              padding: 10px;
+              border-radius: 5px;
+            }
+    
+            .nav-links.active {
+              display: flex;
+            }
+    
+            .hamburger-menu {
+              display: flex;
+            }
+        }
+
+        /* Centered Audio Container */
+        .audio-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            width: 40%;
+            height:100vh;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .audio-item {
+            background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 2px solid #664343;
+        }
+
+        .audio-item h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color:#3B3030;
+        }
+
+        .play-button {
+            background-color: #664343;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .play-button:hover {
+            background-color: #FFF0D1;
+            color:black;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo" class="logo-img">
+            <span class="website-name">WeCare</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('AboutUs') }}">About Members</a></li>
+            <li class="dropdown">
+                <a href="#">Settings</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('Profile') }}">Profile</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropper">More</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('journaling') }}">Journaling</a>
+                    <a href="{{ url_for('self_help_books') }}">Self Help Books</a>
+                    <a href="{{ url_for('mood_tracker') }}">Mood Tracker</a>
+                    <a href="{{ url_for('calming_audio') }}">Calming Audios</a>
+                    <a href="{{ url_for('meditation') }}">Meditation</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <h1 style="text-align: center; margin-top: 20px;">Calming Audio Tracks</h1>
+
+    <div class="audio-container">
+        <!-- Audio Item 1 -->
+        <div class="audio-item">
+            <h2>Episode: Love Yourself To The Core</h2>
+            <audio id="audio1">
+                <source src="{{ url_for('static', filename='podcasts/LoveYourself.mp3') }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <button class="play-button" onclick="playAudio('audio1')">Play</button>
+        </div>
+
+        <!-- Audio Item 2 -->
+        <div class="audio-item">
+            <h2>Episode: Stop Comparing Yourself</h2>
+            <audio id="audio2">
+                <source src="{{ url_for('static', filename='podcasts/StopComparingYourself.mp3') }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <button class="play-button" onclick="playAudio('audio2')">Play</button>
+        </div>
+
+        <!-- Audio Item 3 -->
+        <div class="audio-item">
+            <h2>Episode: Stop Feeling <br>Anxious
+
+
+
+            </h2>
+            <audio id="audio3">
+                <source src="{{ url_for('static', filename='podcasts/StopFeelingAnxious.mp3') }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <button class="play-button" onclick="playAudio('audio3')">Play</button>
+        </div>
+
+        <!-- Audio Item 4 -->
+        <div class="audio-item">
+            <h2>Episode: Stop Negative Self-Talk</h2>
+            <audio id="audio4">
+                <source src="{{ url_for('static', filename='podcasts/StopSelfNegativeTalk.mp3') }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <button class="play-button" onclick="playAudio('audio4')">Play</button>
+        </div>
+
+        <!-- Audio Item 5 -->
+        <div class="audio-item">
+            <h2>Episode: Take Care Of Your Mental Health</h2>
+            <audio id="audio5">
+                <source src="{{ url_for('static', filename='podcasts/TakeCareOfYourMentalHealth.mp3') }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <button class="play-button" onclick="playAudio('audio5')">Play</button>
+        </div>
+        <div class="audio-item">
+            <h2>Episode: 101 to Mental <br>Health</h2>
+            <audio id="audio6">
+                <source src="{{ url_for('static', filename='podcasts/101 to mental health.mp3') }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <button class="play-button" onclick="playAudio('audio6')">Play</button>
+        </div>
+    </div>
+    <video class="background-video" autoplay muted loop>
+        <source src="{{ url_for('static', filename='css/videoBG.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        // JavaScript to manage play/pause functionality
+        let currentAudio = null;
+
+        function playAudio(audioId) {
+            if (currentAudio && currentAudio.id !== audioId) {
+                currentAudio.pause();
+            }
+
+            let audio = document.getElementById(audioId);
+            if (audio.paused) {
+                audio.play();
+                currentAudio = audio;
+            } else {
+                audio.pause();
+            }
+        }
+
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

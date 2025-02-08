@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeCare</title>
+    <style>
+        body {
+            background-color: #F0EBE3;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #664343;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo-img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .navbar .website-name {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            list-style-type: none;
+            display: flex;
+        }
+
+        .navbar .nav-links li {
+            margin: 0 15px;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #F0EBE3;
+        }
+
+        .messages {
+            position: relative;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .text {
+            font-size: 70px;
+            color: #3B3030;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), -1px -1px 2px rgba(255, 255, 255, 0.7), 1px -1px 2px rgba(255, 255, 255, 0.7), -1px 1px 2px rgba(255, 255, 255, 0.7), 1px 1px 2px rgba(255, 255, 255, 0.7);
+            width: 95%;
+            opacity: 1;
+            animation: MoveUp 2s forwards;
+        }
+
+        @keyframes MoveUp {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-80px);
+            }
+        }
+
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .fadeInText {
+            font-size: 50px;
+            color: #49243E;
+            opacity: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), -1px -1px 2px rgba(255, 255, 255, 0.7), 1px -1px 2px rgba(255, 255, 255, 0.7), -1px 1px 2px rgba(255, 255, 255, 0.7), 1px 1px 2px rgba(255, 255, 255, 0.7);
+            position: absolute;
+            top: 40%; 
+            left: 50%;
+            transform: translateX(-50%);
+            animation: fadeInText 2s 2s forwards;
+            z-index: 10;
+        }
+
+        .images {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            padding: 10px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInImages 2s 2s forwards;
+        }
+
+        .image {
+            width: 400px;
+            height: 450px;
+            border: 4px solid #664343;
+        }
+
+        @keyframes fadeInImages {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        .head{
+            font-size: 70px;
+            color: #3B3030;
+            text-align:center;
+            font-style:italic;
+            opacity:0;
+            animation:slideIn 2s 3.5s forwards;
+        }
+        @keyframes slideIn{
+            0%{
+            transform:translateX(-100%);
+            opacity:0;
+        }
+        100%{
+            transform:translateX(0);
+            opacity:1;
+        }
+    }
+        .offerings{
+            display: flex;
+            justify-content: space-around;
+            background-color:#F8EDE3;
+            flex-wrap:wrap;
+            gap: 10px;
+            padding: 30px;
+            padding-top:50px;
+            margin-top:70px;
+        }
+        .offers{
+            text-align:center;
+        }
+        .offer1{
+            width: 300px;
+            height: 350px;
+            opacity:0;
+            border: 4px solid #664343;
+            border-radius:25px;
+            animation: slideIn 2s 3s forwards;
+        }
+        .offer2{
+            width: 300px;
+            height: 350px;
+            border: 4px solid #664343;
+            opacity:0;
+            border-radius:25px;
+            animation: slideIn 2s 2.5s forwards;
+        }
+        .offer3{
+            width: 300px;
+            height: 350px;
+            border: 4px solid #664343;
+            opacity:0;
+            border-radius:25px;
+            animation: slideIn 2s 2s forwards;
+        }
+        @keyframes fadeIn{
+            0%{
+                opacity:0;
+            }
+            100%{
+                opacity:100;
+            }
+        }
+
+        .txt{
+            margin-top: 10px;
+            font-size: 26px;
+            font-style:italic;
+            color: #3B3030;
+            font-weight: bold;
+            opacity:0;
+            animation:fadeInText 2s 3s forwards;
+        }
+        .content{
+            text-align:center;
+            font-family:sans-serif;
+            opacity:0;
+            animation:fadeInText 2s 3s forwards;     
+        }
+       
+        .btn-container {
+            display: flex;
+            background-color:#F8EDE3;
+            justify-content: center;  
+            align-items: center;      
+            flex-wrap: wrap;          
+            gap: 10px;                
+        }
+        
+        .btn {
+            background-color: #9A7E6F;
+            font-size: 16px;
+            font-style: italic;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            width: 150px;   
+            opacity:0;
+            animation:fadeInText 2s 3s forwards;         
+        }
+        
+        .btn:hover {
+            background-color: #7A5C45;
+            transition: background-color 0.3s ease;
+        }
+        .about-us {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 50px;
+            background-color:#FFF4EA;
+            color: #3B3030;
+            font-family: sans-serif;
+        }
+        .about-us .about-title {
+            font-size: 70px;
+            font-weight: bold;
+            color: #3B3030;
+            text-align: center;
+            padding-right: 30px;
+            width: 40%;
+            font-family:Times New Roman;
+            opacity:0;
+            animation: SlideOut 2s 2.5s forwards;
+        }
+
+        .about-us .about-content {
+            text-align:left;
+            width: 60%;
+            font-size: 20px;
+            line-height: 1.6;
+            color: #3B3030;
+            opacity:0;
+            font-family:cursive;
+            animation: SlideOut 2s 2s forwards;
+        }
+        @keyframes SlideOut{
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .footer{
+            background-color:#f4bfba;
+            display:flex;
+            justify-content:space-around;
+            align-items:center;
+        }
+        .foot-img{
+            opacity:0;
+            animation:fadeIn 2s 2s forwards;
+        }
+        .foot{
+            height:200px;
+            width:200px;
+            align-item:left;
+            margin-top:20px;
+            margin-left:150px;
+            margin-bottom:20px:
+        }
+        .info{
+            font-family:Times New Roman;
+            font-size:20px;
+            color:#b77476;
+            font-weight:bold;
+            margin-right:150px;
+            opacity:0;
+            animation:fadeIn 2s 2s forwards;
+        }
+        .CopyRight {
+            background-color: #664343;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 16px;
+            
+            bottom: 0;
+            width: 100%;
+            
+        }
+        
+
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo" class="logo-img">
+            <span class="website-name">WeCare</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('AboutUs') }}">About Members</a></li>
+        </ul>
+    </nav>
+
+    <div class="messages">
+        <p class="text">Discover Yourself With Us</p>
+        <p class="fadeInText">Your Journey Starts Here</p> 
+    </div>
+
+    <div class="images">
+        <img src="{{ url_for('static', filename='css/d1.png') }}" alt="first" class="image">
+        <img src="{{ url_for('static', filename='css/d2.png') }}" alt="sec" class="image">
+        <img src="{{ url_for('static', filename='css/d3.png') }}" alt="third" class="image">
+    </div>
+    
+    <div class="offerings">
+        <p class="head">Our <br>Offerings</p>
+        <div class="offers">
+        <img src="{{ url_for('static', filename='css/o1.jpg') }}" alt="one" class="offer1">
+        <p class="txt">Mood Tracker</p>
+        </div>
+        <div class="offers">
+        <img src="{{ url_for('static', filename='css/o2.jpg') }}" alt="two" class="offer2">
+        <p class="txt">Meditation Videos</p>
+        </div>
+        <div class="offers">
+        <img src="{{ url_for('static', filename='css/o3.jpg') }}" alt="three" class="offer3">
+        <p class="txt">Self help books</p>
+        </div>
+    </div>
+   
+    <div class="btn-container">
+        <p class="content"><b>For more please Login/SignUp with us.</b></p>
+        <a href="{{ url_for('login') }}" class="btn">Login</a>
+        <a href="{{ url_for('signup') }}"class ="btn">signup</a>
+    </div>
+    <div class="about-us">
+        
+        <div class="about-content">
+            <p>At <b><i>WeCare</i></b>, we believe that caring for yourself is not selfish—it's the foundation of self-love and living up to your true potential. We are here to help you heal your mind, body, and spirit, offering a range of features designed to make you feel heard and supported. From journaling and mood tracking to self-help books, we provide tools that nurture your well-being. Whether you're seeking relief from physical discomfort, emotional support, or spiritual growth, our compassionate team is dedicated to guiding you on your journey toward complete wellness, helping you embrace a healthier, more fulfilling life.</p>
+        </div>
+        <div class="about-title">
+            <p>Our <i>Holistic</i><br> Approach to<br><i> Healing</i></p>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="foot-img">
+        <img src="{{ url_for('static', filename='css/logo.png') }}" alt="img" class="foot"/>
+        </div>
+        <div class="info">
+            <p class="i1">Created By: Anjali Agarwal & Kashish Sharma</p>
+            <p class="i1">9414365665, 9024196929</p>
+            <p class="i1">WeCareSupport@gmail.com</p>
+        </div>
+</div>
+<div class="CopyRight">
+    &copy; 2024 All Rights Reserved
+</div>
+
+
+    <script>
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // When the element is visible, add the 'visible' class to trigger the animation
+                    entry.target.classList.add('visible');
+                    // Stop observing the element once it is visible
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 1.0 }); // Trigger when 50% of the element is in view
+
+        // Observe all elements with the class 'fadeInText', 'images', 'head', etc.
+        const elementsToObserve = document.querySelectorAll('.fadeInText, .images, .head');
+        elementsToObserve.forEach(element => observer.observe(element));
+    </script>
+
+</body>
+</html>

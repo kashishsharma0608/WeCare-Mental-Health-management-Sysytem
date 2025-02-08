@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #664343;
+            padding: 10px 20px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo-img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .navbar .website-name {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            list-style-type: none;
+            display: flex;
+            margin-left: auto;
+        }
+
+        .navbar .nav-links li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            margin-right:60px;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #F0EBE3;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #664343;
+            min-width: 200px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #50403F;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger-menu div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+        }
+
+        /* Responsive navbar */
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #664343;
+                padding: 20px;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                z-index: 1000;
+            }
+
+            .navbar .nav-links.active {
+                display: flex;
+            }
+
+            .navbar .nav-links li {
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .dropdown-content {
+                position: static;
+            }
+
+            /* Show the hamburger menu */
+            .hamburger-menu {
+                display: flex;
+            }
+        }
+        .container {
+            background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+            border: 2px solid #32012F;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            margin: auto; /* Center horizontally */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center vertically */
+            margin-top:60px;
+        }
+        
+        .heading {
+            font-family: sans-serif;
+            margin-bottom: 10px;
+            color: #803D3B;
+            font-size: 50px;
+            text-align: center;
+        }
+    
+.slider-container {
+    display: flex;
+    font-size:25px;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    width:100%;
+    height:150px;
+    color:#664343;
+
+}
+
+.slider {
+    width: 100%;
+    color:#664343;
+    margin-top:10px;
+}
+
+/* Cards layout for Mood Tracker */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+
+    
+    
+}
+/* Individual Mood Tracker Card */
+.card {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom:40px;
+    border: 2px solid #664343;
+}
+
+.card h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #664343;
+}
+
+/* Range input for slider */
+.range-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.range-input input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.range-input input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background-color: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.range-label {
+    font-size: 14px;
+    margin-top: 10px;
+    color:#664343 ;
+}
+
+.save-btn {
+    background-color: #664343;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-left:350px;
+}
+
+.save-btn:hover {
+    background-color: white;
+    color:black;
+}
+.heading{
+    font-family:sans-serif;
+    margin-bottom:10px;
+    color: #803D3B;
+    font-size:50px;
+    text-align:center;
+}
+
+</style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo" class="logo-img">
+            <span class="website-name">WeCare</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('AboutUs') }}">About Members</a></li>
+            <li class="dropdown">
+                <a href="#">Settings</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('Profile') }}">Profile</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropper">More</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('journaling') }}">Journaling</a>
+                    <a href="{{ url_for('self_help_books') }}">Self Help Books</a>
+                    <a href="{{ url_for('calming_audio') }}">Calming Audios</a>
+                    <a href="{{ url_for('meditation') }}">Meditation</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <h1 class="heading"><i>Mood Tracker</i></h1>
+    <div class="container">
+        <div class="slider-container">
+            <label for="sleep-slider" style="margin-top:40px">Hours slept last night:</label>
+            <input id="sleep-slider" type="range" min="0" max="12" step="0.5" value="7.5" class="slider" oninput="updateSleepValue()" style:"color:#9A7E6F">
+            <div id="sleep-value" class="range-label">7.5 hours</div>
+        </div>
+        
+        <div class="cards">
+            <div class="card">
+                <h3>Today's most extreme depressed mood:</h3>
+                <div class="range-input">
+                    <input type="range" min="0" max="3" value="2" oninput="updateLabel(this, 'depressed-value')">
+                    <div id="depressed-value" class="range-label">Moderate</div>
+                </div>
+            </div>
+                <div class="card">
+                    <h3>Today's most extreme elevated mood:</h3>
+                    <div class="range-input">
+                        <input type="range" min="0" max="3" value="0" oninput="updateLabel(this, 'elevated-value')">
+                        <div id="elevated-value" class="range-label">None</div>
+                    </div>
+                </div>
+        
+                <div class="card">
+                    <h3>Today's most extreme irritability:</h3>
+                    <div class="range-input">
+                        <input type="range" min="0" max="3" value="0" oninput="updateLabel(this, 'irritability-value')">
+                        <div id="irritability-value" class="range-label">None</div>
+                    </div>
+                </div>
+                
+        
+                <div class="card">
+                    <h3>Today's most extreme anxiety:</h3>
+                    <div class="range-input">
+                        <input type="range" min="0" max="3" value="0" oninput="updateLabel(this, 'anxiety-value')">
+                        <div id="anxiety-value" class="range-label">None</div>
+                    </div>
+                </div>
+            
+        
+    </div>
+    <button class="save-btn" id="save-button">save</button>
+
+    <script>
+        function updateSleepValue() {
+            const slider = document.getElementById('sleep-slider');
+            const value = slider.value;
+            document.getElementById('sleep-value').textContent = value + " hours";
+        }
+    
+        function updateLabel(slider, labelId, labels = ["None", "Mild", "Moderate", "Severe"]) {
+            const value = slider.value;
+            document.getElementById(labelId).textContent = labels[value];
+        }
+    
+        function saveMoodData() {
+            // Disable Save button to prevent multiple submissions
+            const saveButton = document.getElementById('save-button');
+            saveButton.disabled = true;
+    
+            // Gather the mood data
+            const moodData = {
+                sleepHours: document.getElementById('sleep-slider').value,
+                depressed: document.getElementById('depressed-value').textContent,
+                elevated: document.getElementById('elevated-value').textContent,
+                irritability: document.getElementById('irritability-value').textContent,
+                anxiety: document.getElementById('anxiety-value').textContent
+            };
+    
+            // Send data to the backend
+            fetch('/save_mood', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(moodData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message || 'Mood saved successfully');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error saving mood. Please try again.');
+            })
+            .finally(() => {
+                saveButton.disabled = false; // Re-enable Save button
+            });
+        }
+    
+        // Attach Save button click event
+        document.getElementById('save-button').addEventListener('click', saveMoodData);
+    </script>
+    
+    
+</body>
+</html>

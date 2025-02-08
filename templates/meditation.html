@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    <title>Meditation Videos</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <style>
+        body {
+            background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+            font-family: "Times New Roman", serif;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #664343;
+            padding: 10px 20px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo-img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .navbar .website-name {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            list-style-type: none;
+            display: flex;
+            margin-left: auto;
+        }
+
+        .navbar .nav-links li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            margin-right:60px;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #F0EBE3;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #664343; /* Updated color */
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #846363;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger-menu div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #664343;
+                padding: 20px;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                z-index: 1000;
+            }
+
+            .navbar .nav-links.active {
+                display: flex;
+            }
+
+            .navbar .nav-links li {
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .navbar .nav-links a {
+                font-size: 18px;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-top: 20px;
+            color: #640D5F;
+        }
+
+        h4 {
+            color: #640D5F;
+            font-size: 25px;
+            margin-bottom: 40px;
+            font-weight: normal;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .video-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            background-color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .video-item p {
+            margin-top: 10px;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .Footer {
+            font-size: 20px;
+            color: brown;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo" class="logo-img">
+            <span class="website-name">WeCare</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('AboutUs') }}">About Members</a></li>
+            <li class="dropdown">
+                <a href="#">Settings</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('Profile') }}">Profile</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#">More</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('journaling') }}">Journaling</a>
+                    <a href="{{ url_for('self_help_books') }}">Self Help Books</a>
+                    <a href="{{ url_for('calming_audio') }}">Calming Audios</a>
+                    <a href="{{ url_for('mood_tracker') }}">Mood Tracker</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <h1><i>Meditation Videos</i></h1>
+    <h4>Dive into the world of peace and joy</h4>
+    <div class="video-container">
+        <!-- Video Items -->
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/uDuPL6wfWvQ" allowfullscreen></iframe>
+            <p>10-Minute Guided Meditation for Relaxation</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/inpok4MKVLM" allowfullscreen></iframe>
+            <p>Deep Breathing Meditation to Calm the Mind</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/ssss7V1_eyA" allowfullscreen></iframe>
+            <p>Mindfulness Meditation for Beginners</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/O-6f5wQXSu8" allowfullscreen></iframe>
+            <p>Evening Meditation for a Peaceful Sleep</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/DulNz2CkoHI" allowfullscreen></iframe>
+            <p>5-Minute Gratitude Meditation</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/cyMxWXlX9sU" allowfullscreen></iframe>
+            <p>Visualization Meditation for Positive Energy</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/U9YKY7fdwyg" allowfullscreen></iframe>
+            <p>Guided Meditation for Inner Peace</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/9yj8mBfHlMk" allowfullscreen></iframe>
+            <p>Relaxing Music with Nature Sounds</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/xv-ejEOogaA" allowfullscreen></iframe>
+            <p>Body Scan Meditation for Deep Relaxation</p>
+        </div>
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/HudclrFRzQ0?si=0eElCWDizoQfpqnV"  allowfullscreen></iframe>
+            <p>30-Minute Healing Meditation</p>
+        </div>
+    </div>
+   
+    <footer>
+        <p class="Footer">“Let go of the noises of the world, find peace within.”</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

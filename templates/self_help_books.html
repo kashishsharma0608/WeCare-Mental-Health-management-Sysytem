@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <title>PDF Viewer</title>
+    <script src="{{ url_for('static', filename='pdfjs/pdf.js') }}"></script>
+    <script>
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "{{ url_for('static', filename='pdfjs/pdf.worker.js') }}";
+
+      function openPdf(pdfUrl) {
+        const pdfWindow = window.open(pdfUrl, "_blank");
+        pdfWindow.focus();
+      }
+    </script>
+    <style>
+      body {
+        background-color: #B99470;
+        font-family: Roman;
+        color: #7a559b;
+        margin: 0;
+        padding: 0;
+        overflow-x:hidden;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #664343;
+        padding: 10px;
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar .logo-img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+      }
+
+      .navbar .website-name {
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        margin-right: 30px;
+        align-items: space-between;
+      }
+
+      .nav-links li {
+        margin: 0 15px;
+        position: relative;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: white;
+        font-size: 15px;
+        transition: color 0.3s;
+        font-size: 20px;
+        margin-right: 40px;
+      }
+
+      .nav-links a:hover {
+        color: #d4bdac;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #664343;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .hamburger-menu {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+      }
+
+      .hamburger-menu div {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          background-color: #664343;
+          position: absolute;
+          top: 50px;
+          right: 20px;
+          padding: 10px;
+          border-radius: 5px;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .hamburger-menu {
+          display: flex;
+        }
+      }
+      .head{
+        color: #FFE9D0; 
+        font-size: 60px; 
+        text-align: center;
+        animation: fadeIn 1s ease-out;
+      }
+      .bookLeft {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background-color: #fbf4db;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-right: 50px;
+        animation: slideInLeft 1s ease-out;
+      }
+
+      .bookLeft img {
+        width: 300px;
+        height: 400px;
+        border-radius: 5px;
+        border: 3px solid #A28B55;
+        transition: transform 0.3s ease;
+        margin-left: 50px;
+        margin-top: 50px;
+      }
+
+      .bookLeft img:hover {
+        transform: scale(1.05);
+      }
+
+      .bookLeft-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-left: 50px;
+        animation: fadeIn 1s ease-out, slideInLeft 1s ease-out;
+      }
+
+      .bookLeft h1 {
+        font-size: 100px;
+        font-family: "Times New Roman", Times, serif;
+        font-weight: bold;
+        color:#A28B55;
+        margin-bottom:0;
+      }
+
+      .bookLeft p {
+        font-size: 20px;
+        margin-top:20px;
+        color: #B99470;
+        font-family: "Times New Roman", Times, serif;
+      }
+
+      .bookLeft button {
+        margin-top: 10px;
+        padding: 10px 15px;
+        background-color:#A28B55;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .bookLeft button:hover {
+        background-color:#B99470;
+      }
+
+      .bookRight {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background-color: #E0E5B6;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-right: 50px;
+        animation: slideInRight 2s ease-out;
+      }
+      
+      .bookRight-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-right: 30px;
+        max-width: 70%;
+        margin-left:30px;
+        animation: fadeIn 2s ease-out, animation, slideInRight 2s ease-out;;
+      }
+      
+      .bookRight img {
+        width: 300px;
+        height: 400px;
+        border-radius: 5px;
+        border: 3px solid #597445;
+        transition: transform 0.3s ease;
+        margin-left:2px;
+        margin-top: 50px;
+      }
+      
+      .bookRight img:hover {
+        transform: scale(1.05);
+      }
+      .bookRight h1 {
+        font-size: 100px;
+        font-family: "Times New Roman", Times, serif;
+        font-weight: bold;
+        color:#5f9a32;
+        margin-bottom:0;
+        white-space: nowrap;
+      }
+      .bookRight p {
+        font-size: 20px;
+        margin-top:20px;
+        color: #597445;
+        font-family: "Times New Roman", Times, serif;
+      }
+      
+      .bookRight button {
+        margin-top: 10px;
+        padding: 10px 15px;
+        background-color: #5f9a32;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .bookRight button:hover {
+        background-color: #80f94c;
+      }
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      @keyframes slideInLeft {
+        0% {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes slideInRight {
+        0% {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @media (max-width: 768px) {
+        .bookLeft,
+        .bookRight {
+          flex-direction: column;
+          align-items: center;
+        }
+    }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          src="{{ url_for('static', filename='css/logo.png') }}"
+          alt="Logo"
+          class="logo-img"
+        />
+        <span class="website-name">WeCare</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('AboutUs') }}">About Members</a></li>
+        <li class="dropdown">
+          <a href="#">Settings</a>
+          <div class="dropdown-content">
+            <a href="{{ url_for('Profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropper">More</a>
+          <div class="dropdown-content">
+            <a href="{{ url_for('journaling') }}">Journaling</a>
+            <a href="{{ url_for('mood_tracker') }}">Mood Tracker</a>
+            <a href="{{ url_for('calming_audio') }}">Calming Audios</a>
+            <a href="{{ url_for('meditation') }}">Meditation</a>
+          </div>
+        </li>
+      </ul>
+
+      <div class="hamburger-menu" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </nav>
+
+    <h1 class="head">
+      Available Books
+    </h1>
+    <div class="bookLeft">
+      <img
+        src="{{ url_for('static', filename='images/Atomichabit.jpg') }}"
+        alt="Book 1"
+      />
+      <div class="bookLeft-content">
+        <h1>Atomic Habits</h1>
+        <p>
+          <i>Atomic Habits</i> by James Clear is a self-help book that explores the
+          power of small, consistent changes in daily habits. It emphasizes how
+          tiny improvements, compounded over time, can lead to remarkable
+          transformations in personal and professional life. The book provides
+          practical strategies for building good habits and breaking bad ones.
+        </p>
+        <button
+          onclick="openPdf('{{ url_for('static', filename='pdfs/AtomicHabits.pdf') }}')">
+          Read Now
+        </button>
+      </div>
+    </div>
+    <div class="bookRight">
+        <div class="bookRight-content">
+        <h1>Don't Believe</h1>
+        <p><i>Don't Believe</i> is a powerful narrative that explores themes of resilience and determination. The book follows the journey of a protagonist who faces significant challenges and learns to trust their inner strength. Through personal growth and perseverance, the story encourages readers to defy doubt and believe in their ability to overcome life's obstacles. .</p>
+        <button onclick="openPdf('{{ url_for('static', filename='pdfs/DontBelieveEverything.pdf') }}')">
+            Read Now
+        </button>
+        </div>
+        <img
+        src="{{ url_for('static', filename='images/DontBelieve.jpg') }}"
+        alt="Book 2"
+        />
+    </div>
+    <div class="bookLeft">
+        <img
+        src="{{ url_for('static', filename='images/Quiet.jpg') }}"
+        alt="Book 3"/>
+        <div class="bookLeft-content">
+          <h1>The Power Of Introverts</h1>
+          <p>
+            <i>The Power of Introverts</i> by Susan Cain explores the strength and unique qualities of introverted individuals in a society that often values extroversion. It delves into how introverts possess traits like deep thinking, empathy, and focus that can lead to success in both personal and professional realms. The book highlights the importance of embracing introversion, offering insights for creating environments where introverts can thrive.
+          </p>
+          <button
+          onclick="openPdf('{{ url_for('static', filename='pdfs/ThePowerOfIntroverts.pdf') }}')">
+          Read Now
+        </button>
+        </div>
+      </div>
+      <div class="bookRight">
+        <div class="bookRight-content">
+        <h1>Now You'd Be Home</h1>
+        <p><i>Now You'd Be Home</i> is a heartwarming novel that explores themes of family, love, and the bonds that hold us together. It follows the emotional journey of a protagonist navigating life’s challenges, discovering the importance of home, belonging, and healing. Through its touching narrative, the story reminds readers of the strength found in love and connection.</p>
+        <button
+        onclick="openPdf('{{ url_for('static', filename='pdfs/NowYoudBeHome.pdf') }}')">
+        Read Now
+      </button>
+        </div>
+        <img
+        src="{{ url_for('static', filename='images/youdbehomenow.jpg') }}"
+        alt="Book 4"/>
+    </div>
+    <div class="bookLeft">
+        <img
+        src="{{ url_for('static', filename='images/setBoundaries.jpg') }}"
+        alt="Book 5"/>
+        <div class="bookLeft-content">
+          <h1>Set Boundaries</h1>
+          <p>
+            <i>Set Boundaries</i> is a guide to understanding the importance of personal boundaries and how they contribute to healthier relationships and self-care. The book offers practical advice on how to establish clear limits, say no without guilt, and prioritize your well-being. It empowers readers to take control of their lives by teaching them how to create balance and respect in their interactions with others.
+          </p>
+          <button onclick="openPdf('{{ url_for('static', filename='pdfs/SetBoundaries.pdf') }}')">
+          Read Now
+        </button>
+        </div>
+      </div>
+      <div class="bookRight">
+        <div class="bookRight-content">
+        <h1>The Power Of Habit</h1>
+        <p><i>The Power of Habit</i> by Charles Duhigg explores the science behind why habits exist and how they can be changed. The book delves into how habits shape our lives, both personally and professionally, and provides actionable strategies for creating positive habits and breaking negative ones. Through compelling stories and research, Duhigg reveals how transforming habits can lead to success and lasting change.</p>
+        <button onclick="openPdf('{{ url_for('static', filename='pdfs/ThePowerOfHabit.pdf') }}')">
+        Read Now
+        </button>
+        </div>
+        <img
+        src="{{ url_for('static', filename='images/Thepowerofhabit.jpg') }}"
+        alt="Book 6"/>
+    </div>
+    <script>
+      function toggleMenu() {
+        const navLinks = document.querySelector(".nav-links");
+        navLinks.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journaling</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #664343;
+            padding: 10px 20px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo-img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .navbar .website-name {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            list-style-type: none;
+            display: flex;
+            margin-left: auto;
+        }
+
+        .navbar .nav-links li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 15px;
+            margin-right:60px;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #F0EBE3;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #664343;
+            min-width: 200px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #50403F;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger-menu div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+        }
+
+        /* Responsive navbar */
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #664343;
+                padding: 20px;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                z-index: 1000;
+            }
+
+            .navbar .nav-links.active {
+                display: flex;
+            }
+
+            .navbar .nav-links li {
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .dropdown-content {
+                position: static;
+            }
+
+            /* Show the hamburger menu */
+            .hamburger-menu {
+                display: flex;
+            }
+        }
+
+        .container {
+            background-color: #664343;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            margin: 20px auto;
+            max-width: 800px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .head {
+            text-align: center;
+            color: #644642;
+            font-size: 70px;
+            margin-top: 20px;
+        }
+
+        h1, h2 {
+            color: white;
+        }
+
+        .prompt-container {
+            background-color: #664343;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        textarea {
+            width: 90%;
+            height: 200px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: white;
+            color: brown;
+            font-style: italic;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: grey;
+        }
+
+        @media (max-width: 600px) {
+            .head {
+                font-size: 36px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            textarea {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo" class="logo-img">
+            <span class="website-name">WeCare</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('AboutUs') }}">About Members</a></li>
+            <li class="dropdown">
+                <a href="#">Settings</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('Profile') }}">Profile</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#">More</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('mood_tracker') }}">Mood tracker</a>
+                    <a href="{{ url_for('self_help_books') }}">Self Help Books</a>
+                    <a href="{{ url_for('calming_audio') }}">Calming Audios</a>
+                    <a href="{{ url_for('meditation') }}">Meditation</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger-menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <h1 class="head">Journaling</h1>
+
+    <div class="container">
+        <h1>Daily Journal Prompt</h1>
+        <div class="prompt-container">
+            <h2 id="prompt-title">Loading prompt...</h2>
+            <textarea id="response-input" rows="10" placeholder="Write now...."></textarea>
+            <button id="save-btn">Save</button>
+        </div>
+    </div>
+
+    <script>
+        const prompts = [
+            "Write a List of 10 Things That Make You Smile",
+            "Think of a Place That Makes You Feel Happy and Peaceful",
+            "Write a Love Letter to Yourself",
+            "Think About a Recent Accomplishment or Milestone",
+            "What Are 5 Things About Yourself You Want People To Know?",
+            "How Do You Handle a Bad Day?",
+            "Write a Letter to Your Younger Self",
+            "Write a List of Things To Remember on a Bad Day",
+            "Reflect on a Recent Challenging Situation",
+            "Write a Letter of Forgiveness to Someone Who’s Hurt You"
+        ];
+
+        function getDailyPrompt() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+            const promptIndex = dayOfYear % prompts.length;
+            return prompts[promptIndex];
+        }
+
+        function initialize() {
+            const promptTitle = document.getElementById("prompt-title");
+            promptTitle.innerText = getDailyPrompt();
+
+            const saveButton = document.getElementById("save-btn");
+            saveButton.addEventListener("click", saveResponse);
+        }
+
+        function saveResponse() {
+            const responseInput = document.getElementById("response-input");
+
+            if (!responseInput.value) {
+                alert("Please write a response before saving.");
+                return;
+            }
+
+            const today = new Date().toISOString().split("T")[0];
+            const savedData = {
+                date: today,
+                response: responseInput.value
+            };
+
+            localStorage.setItem(today, JSON.stringify(savedData));
+            alert("Your response has been saved!");
+            responseInput.value = "";
+        }
+
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        initialize();
+    </script>
+</body>
+</html>

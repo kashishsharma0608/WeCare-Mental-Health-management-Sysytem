@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mental Health App</title>
+    <style>
+      body {
+        background: radial-gradient(circle, #F1E5D1, #DBB5B5, #C39898);
+        font-family: Roman;
+        color: #7a559b;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #664343;
+        padding: 10px;
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar .logo-img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+      }
+
+      .navbar .website-name {
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        margin-right: 30px;
+        align-items: space-between;
+      }
+
+      .nav-links li {
+        margin: 0 15px;
+        position: relative;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: white;
+        font-size: 15px;
+        transition: color 0.3s;
+        font-size: 20px;
+        margin-right: 40px;
+      }
+
+      .nav-links a:hover {
+        color: #d4bdac;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #664343;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .hamburger-menu {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+      }
+
+      .hamburger-menu div {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+      }
+
+      .headings {
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .headings h1 {
+        font-size: 28px;
+        color: #664343;
+      }
+
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .feature-row {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        width: 100%;
+        align-items: center;
+      }
+
+      .feature-container {
+        text-align: center;
+        flex: 1 1 calc(30% - 20px); 
+        max-width: 300px;
+        padding:20px;
+        margin: auto;
+        position: relative;
+        background-image: url("{{ url_for('static', filename='css/bgyoga.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    
+
+      }
+
+      .feature-container img {
+        width: 100%; 
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover;
+        
+        box-sizing: border-box;
+        
+      }
+
+      .feature-container a {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #FFF2E1;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+        padding: 10px 20px;
+        
+      }
+
+      .description {
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          background-color: #664343;
+          position: absolute;
+          top: 50px;
+          right: 20px;
+          padding: 10px;
+          border-radius: 5px;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .hamburger-menu {
+          display: flex;
+        }
+      }
+
+      .headings {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+
+      .image-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .img-container1,
+      .img-container2,
+      .img-container3 {
+        display: block;
+        width: 100%;
+        height: 550px;
+        object-fit: cover;
+       
+      }
+
+      .overlay-text {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #FFF2E1;
+        font-size: 50px;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+      .overlay-text1 {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #FFF2E1;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+      .textIt{
+        font-size: 24px;
+        text-align:center;
+        color:beige;
+      }
+      .img-container4{
+        width:100%;
+        height:400px;
+      }
+      .img-links {
+        text-align: center;
+        margin-top: 10px;
+      }
+      
+      .img-links a {
+        display: inline-block;
+        font-size: 30px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+        background-color:#664343;
+        border-radius:5px;
+        margin-bottom:10px;
+      }
+      
+      .img-links a:hover {
+        color:black;
+        background-color:white;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo" class="logo-img" />
+        <span class="website-name">WeCare</span>
+      </div>
+      <ul class="nav-links">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('AboutUs') }}">About Us</a>
+        <li class="dropdown">
+          <a href="#">Settings</a>
+          <div class="dropdown-content">
+            <a href="{{ url_for('Profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#">More</a>
+          <div class="dropdown-content">
+            <a href="{{ url_for('journaling') }}">Journaling</a>
+            <a href="{{ url_for('self_help_books') }}">Self-Help Books</a>
+            <a href="{{ url_for('calming_audio') }}">Calming Audios</a>
+            <a href="{{ url_for('meditation') }}">Meditation</a>
+          </div>
+        </li>
+      </ul>
+      <div class="hamburger-menu" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </nav>
+
+    <div class="headings">
+      <div class="image-container">
+        <img class="img-container4" src="{{ url_for('static', filename='css/topx.png') }}" />
+        <div class="overlay-text">Welcome, <i>{{ username }}</i></div>
+        <p class="overlay-text1"><br>The advice I’d give to somebody that’s<br> silently struggling is, you don’t have to<br> live that way.You don’t have to<br> struggle in silence.<i> You can be un-silent.</i></p>
+      </div>
+    </div>
+   <p class="textIt">
+    <b><i>"Discover a world of support and self-care,<br> where every feature is designed to empower your mental well-being."</b></i>
+   </p>
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='css/index11.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='css/indeximg10.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='css/Indeximg2.jpg') }}" />
+        </div>
+      </div>
+    </div>
+    <div class="img-links">
+      <a href="{{ url_for('mood_tracker') }}">MoodTracker</a>
+    </div>
+    <img class="img-container1" src="{{ url_for('static', filename='css/111.jpg') }}" />
+    
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='css/yoga2.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='css/yoga1.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='css/yoga2.jpg') }}" />
+        </div>
+      </div>
+    </div>
+    <div class="img-links">
+      <a href="{{ url_for('meditation') }}">MeditationVideos</a>
+    </div>
+    <img class="img-container1" src="{{ url_for('static', filename='css/images121.jpg') }}" />
+     
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/book3.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/book1.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/book2.jpg') }}" />
+        </div>
+      </div>
+    </div>
+    <div class="img-links">
+      <a href="{{ url_for('self_help_books') }}">SelfHelpBooks</a>
+    </div>
+    <img class="img-container1" src="{{ url_for('static', filename='css/images131.jpg') }}" />
+     
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/audio1.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/audio2.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/audio3.jpg') }}" />
+        </div>
+      </div>
+    </div>
+    <div class="img-links">
+      <a href="{{ url_for('calming_audio') }}">CalmingAudios</a>
+    </div>
+    <img class="img-container1" src="{{ url_for('static', filename='css/indeximg4.jpg') }}" />
+     
+    <div class="container">
+      <div class="feature-row">
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/journal1.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/journal2.jpg') }}" />
+        </div>
+        <div class="feature-container">
+          <img class="img-container1" src="{{ url_for('static', filename='images/journal3.jpg') }}" />
+        </div>
+      </div>
+    </div>
+    <div class="img-links">
+      <a href="{{ url_for('journaling') }}">Journaling</a>
+    <img class="img-container1" src="{{ url_for('static', filename='css/indeximg7.jpg') }}" />
+    <script>
+      function toggleMenu() {
+        const navLinks = document.querySelector('.nav-links');
+        navLinks.classList.toggle('active');
+      }
+    </script>
+  </body>
+</html>
